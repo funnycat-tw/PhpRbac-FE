@@ -3,7 +3,7 @@
 //    File: mgmt.php
 //	    Rbac management system (PhpRbac Frontend)
 //
-//Revision:2014090401
+//Revision:2014090402
 //
 
 require_once dirname(__FILE__) . '/conf/config.inc.php';
@@ -81,7 +81,7 @@ SEL_MENU;
 SEL_MENU;
 		// gen: selection menu of perms (default no selected)
 		$sel_menu_perms = <<< SEL_MENU
-<select id='pname' name='pname' size='4'>
+<select id='pname' name='pname' size='4' onClick='javascript: perm_selected();'>
 <option value='-1'>-- Perm Name --</option>
 SEL_MENU;
 		foreach($perms as $pk => $pv) {
@@ -146,11 +146,14 @@ $sel_menu_roles
 <form id='role_perm_form'><select name='role_perm'><option value='-1'>-- Role & Perm --</option></select></form>
 </td>
 </tr>
+<!-- show edit data when role selected -->
+<tr><td>Role ID Choosed</td><td colspan='2' id='r_id_for_edit'></td></tr>
 <tr>
+<td align='right'>title: <input type='text' id='r_title_for_edit'></td><td align='right'>descr: <input type='text' id='r_descr_for_edit'></td>
 <td align='right'>
+<div onClick='javascript: modify_role();' style='cursor: pointer;'>[edit]<img src='./img/loading.gif' style='display: none;'></div>
 <div onClick='javascript: delete_role();' style='cursor: pointer;'>[del]<img src='./img/loading.gif' style='display: none;'></div>
 </td>
-<td id='role_msg' align='left' colspan='2'></td>
 </tr>
 <tr>
 <td align='right'>
@@ -174,6 +177,9 @@ descr: <input type='text' value='' id='new_role_path_descr'>
 <div onClick='javascript: add_new_role_path();' style='cursor: pointer;'>[add]<img src='./img/loading.gif' id='add_new_role_path_is_sending' style='display:none;'></div>
 </td>
 </tr>
+<tr>
+<td id='role_msg' align='left' colspan='3'></td>
+</tr>
 </table>
 <hr>
 <!-- perm table -->
@@ -192,11 +198,14 @@ $sel_menu_perms
 <form id='perm_user_form'><select name='perm_user'><option value='-1'>-- Perm & User --</option></select></form>
 </td>
 </tr>
+<!-- show edit data when permission selected -->
+<tr><td>Permission ID Choosed</td><td colspan='2' id='p_id_for_edit'></td></tr>
 <tr>
+<td align='right'>title: <input type='text' id='p_title_for_edit'></td><td align='right'>descr: <input type='text' id='p_descr_for_edit'></td>
 <td align='right'>
+<div onClick='javascript: modify_perm();' style='cursor: pointer;'>[edit]<img src='./img/loading.gif' style='display: none;'></div>
 <div onClick='javascript: delete_perm();' style='cursor: pointer;'>[del]<img src='./img/loading.gif' id='delete_perm_is_sending' style='display: none;'></div>
 </td>
-<td id='perm_msg' align='left' colspan='2'></td>
 </tr>
 <tr>
 <td align='right'>
@@ -219,6 +228,9 @@ descr: <input type='text' value='' id='new_perm_path_descr'>
 <td align='right'>
 <div onClick='javascript: add_new_perm_path();' style='cursor: pointer;'>[add]<img src='./img/loading.gif' id='add_new_perm_path_is_sending' style='display: none;'></div>
 </td>
+</tr>
+<tr>
+<td id='perm_msg' align='left' colspan='3'></td>
 </tr>
 </table>
 <hr>

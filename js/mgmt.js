@@ -1,7 +1,7 @@
 //
 //    File: mgmt.js
 //
-//Revision:2014090301
+//Revision:2014090401
 //
 //
 
@@ -21,6 +21,22 @@ function on_complete(id) {
 } // on_complete
 
 // Roles -----------------------------------------------------------------
+function edit_role() {
+	console.log("edit role...");
+} // edit_role
+
+function modify_role() {
+	console.log("modify role...");
+} // edit_role
+
+function edit_perm() {
+	console.log("edit perm...");
+} // edit_perm
+
+function modify_perm() {
+	console.log("modify perm...");
+} // edit_perm
+
 function add_new_role() {
     var new_role = encodeURIComponent( $('#new_role').val() );
     var new_role_descr = encodeURIComponent( $('#new_role_descr').val() );
@@ -105,7 +121,19 @@ function add_new_role_path() {
 } // add_new_role_path
 
 function role_selected() {
-	console.log($('#rname').find(":selected").val() + " has been selected.");
+	var r_id = $('#rname').find(":selected").val();
+
+	if( r_id < 0 ) return;		// invalid value, ignore them and return
+
+	var r_title_and_descr = $('#rname').find(":selected").html().match(/^(.+)\((.+)\)$/);
+	var r_title = r_title_and_descr[1], r_descr = r_title_and_descr[2];
+
+	console.log("role id: " + r_id + ", title: " + r_title + ", descr: " + r_descr[2] + " has been selected.");
+
+	// update r_*_for_edit
+	$('#r_id_for_edit').html(r_id);
+	$('#r_title_for_edit').val(r_title);
+	$('#r_descr_for_edit').val(r_descr);
 } // role_selected
 
 function remove_role(r_id) {
@@ -151,7 +179,7 @@ function delete_role() {
 	var role_id = $('#rname').find(":selected").val();
 	var role_title_and_descr = $('#rname').find(":selected").text();
 
-	if( confirm("Are you sure to delete role: " + role_title_and_descr) ) {
+	if( confirm("Are you sure to delete role id " + role_id + ": " + role_title_and_descr) ) {
 		remove_role(role_id);
 	}
 	else {
@@ -245,7 +273,19 @@ function add_new_perm_path() {
 } // add_new_perm_path
 
 function perm_selected() {
-	console.log($('#pname').find(":selected").val() + " has been selected.");
+	var p_id = $('#pname').find(":selected").val();
+
+	if( p_id < 0 ) return;		// invalid value, ignore them and return
+
+	var p_title_and_descr = $('#pname').find(":selected").html().match(/^(.+)\((.+)\)$/);
+	var p_title = p_title_and_descr[1], p_descr = p_title_and_descr[2];
+
+	console.log("perm id: " + p_id + ", title: " + p_title + ", descr: " + p_descr[2] + " has been selected.");
+
+	// update p_*_for_edit
+	$('#p_id_for_edit').html(p_id);
+	$('#p_title_for_edit').val(p_title);
+	$('#p_descr_for_edit').val(p_descr);
 } // perm_selected
 
 function remove_perm(p_id) {
