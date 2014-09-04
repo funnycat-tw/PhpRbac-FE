@@ -1,7 +1,7 @@
 //
 //    File: mgmt.js
 //
-//Revision:2014090401
+//Revision:2014090402
 //
 //
 
@@ -123,7 +123,7 @@ function add_new_role_path() {
 function role_selected() {
 	var r_id = $('#rname').find(":selected").val();
 
-	if( r_id < 0 ) return;		// invalid value, ignore them and return
+	if( typeof r_id === 'undefined' || r_id < 0 ) return;		// invalid value, ignore them and return
 
 	var r_title_and_descr = $('#rname').find(":selected").html().match(/^(.+)\((.+)\)$/);
 	var r_title = r_title_and_descr[1], r_descr = r_title_and_descr[2];
@@ -275,7 +275,7 @@ function add_new_perm_path() {
 function perm_selected() {
 	var p_id = $('#pname').find(":selected").val();
 
-	if( p_id < 0 ) return;		// invalid value, ignore them and return
+	if( typeof p_id === 'undefined' || p_id < 0 ) return;		// invalid value, ignore them and return
 
 	var p_title_and_descr = $('#pname').find(":selected").html().match(/^(.+)\((.+)\)$/);
 	var p_title = p_title_and_descr[1], p_descr = p_title_and_descr[2];
