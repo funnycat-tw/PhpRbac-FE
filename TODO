@@ -1,0 +1,50 @@
+Key:
+	+: has public WS interface
+	*: for internal usage
+	^: not implemented yet for public WS interface or internal usage
+	-: not used (won't implement for public usage or just for internal usage only)
+
+Rbac->{Entity}->{methods}
+
+	add()
+	addPath()
+	assign()
+	*children()
+	*count()
+	*depth()
+	*descendants()
+	^edit()
+	*getDescription()
+	*getPath()
+	*getTitle()
+	*parentNode()
+	*pathId()
+	*returnId()
+	*titleId()
+	^unassign()
+	*reset()
+	^resetAssignments()
+
+Rbac->Permissions->{methods}
+
+	+remove()
+	^roles()
+	^unassignRoles()
+
+Rbac->Roles->{methods}
+
+	^hasPermission()
+	^permissions()
+	+remove()
+	^unassignPermissions()
+	^unassignUsers()
+
+Rbac->Users->{methods}
+
+	^allRoles()
+	^assign()
+	^hasRole()
+	^resetAssignments()
+	^roleCount()
+	^unassign()
+
