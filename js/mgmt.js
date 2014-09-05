@@ -1,7 +1,7 @@
 //
 //    File: mgmt.js
 //
-//Revision:2014090501
+//Revision:2014090502
 //
 //
 
@@ -58,8 +58,8 @@ function edit_role(r_id, r_title, r_descr) {
 			}
 		},
 	        error: function (xhr) {
-			console.log("AJAX request error (remove_role)");
-			$('#role_msg').html("AJAX request error (remove_role)");
+			console.log("AJAX request error (edit_role)");
+			$('#role_msg').html("AJAX request error (edit_role)");
 		}
 	    }); 
 } // edit_role
@@ -261,8 +261,8 @@ function edit_perm(p_id, p_title, p_descr) {
 			}
 		},
 	        error: function (xhr) {
-			console.log("AJAX request error (remove_perm)");
-			$('#perm_msg').html("AJAX request error (remove_perm)");
+			console.log("AJAX request error (edit_perm)");
+			$('#perm_msg').html("AJAX request error (edit_perm)");
 		}
 	    }); 
 } // edit_perm
@@ -272,7 +272,7 @@ function modify_perm() {
 	var new_p_title = $('#p_title_for_edit').val();
 	var new_p_descr = $('#p_descr_for_edit').val();
 
-	edit_role(p_id, new_p_title, new_p_descr);
+	edit_perm(p_id, new_p_title, new_p_descr);
 } // modify_perm
 
 function add_new_perm() {
