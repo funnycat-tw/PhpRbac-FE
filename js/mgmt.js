@@ -72,14 +72,6 @@ function modify_role() {
 	edit_role(r_id, new_r_title, new_r_descr);
 } // modify_role
 
-function edit_perm() {
-	console.log("edit perm...");
-} // edit_perm
-
-function modify_perm() {
-	console.log("modify perm...");
-} // modify_perm
-
 function add_new_role() {
     var new_role = encodeURIComponent( $('#new_role').val() );
     var new_role_descr = encodeURIComponent( $('#new_role_descr').val() );
@@ -232,6 +224,57 @@ function delete_role() {
 } // delete_role
 
 // Permissions -------------------------------------------------------------------------------------------
+function edit_perm(p_id, p_title, p_descr) {
+	console.log("prepare to edit perm id " + p_id + "\nnew title: " + p_title + "\nnew descr: " + p_descr);
+    	var new_perm_title = encodeURIComponent( p_title );
+	var new_perm_descr = encodeURIComponent( p_descr );
+
+	$.ajax({
+	        url:"./api/edit_perm.php?json=1&p_id="+p_id+"&title="+new_perm_title+"&descr="+new_perm_descr,
+	        dataType: "json",
+	        beforeSend:before_send("#delete_perm_is_sending"),
+	        complete:on_complete("#delete_perm_is_sending"),
+	        success: function (response) {
+			var obj = response;
+
+			console.log("Result: " + obj.Result);
+			$('#perm_msg').html("Result: " + obj.Result);
+			if( obj.Result == "OK." ) {
+				// update select menu of perms
+				var new_options = "<option value='-1'>-- Perm Name --</option>";
+				var opt_cnt = 0;
+
+				for(var p_key in obj.List) {
+					opt_cnt++;
+					new_options = new_options
+						+ "<option value='" 
+						+ obj.List[p_key].ID
+						+ "'>"
+						+ obj.List[p_key].Title
+						+ "(" 
+						+ obj.List[p_key].Description
+						+ ")"
+						+ "</option>";	
+				}
+				$('#pname').html(new_options);
+				$('#pname').attr("size", opt_cnt+1);
+			}
+		},
+	        error: function (xhr) {
+			console.log("AJAX request error (remove_perm)");
+			$('#perm_msg').html("AJAX request error (remove_perm)");
+		}
+	    }); 
+} // edit_perm
+
+function modify_perm() {
+	var p_id = $('#p_id_for_edit').html();
+	var new_p_title = $('#p_title_for_edit').val();
+	var new_p_descr = $('#p_descr_for_edit').val();
+
+	edit_role(p_id, new_p_title, new_p_descr);
+} // modify_perm
+
 function add_new_perm() {
     var new_perm = encodeURIComponent( $('#new_perm').val() );
     var new_perm_descr = encodeURIComponent( $('#new_perm_descr').val() );
