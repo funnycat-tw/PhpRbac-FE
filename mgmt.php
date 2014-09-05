@@ -3,7 +3,7 @@
 //    File: mgmt.php
 //	    Rbac management system (PhpRbac Frontend)
 //
-//Revision:2014090402
+//Revision:2014090501
 //
 
 require_once dirname(__FILE__) . '/conf/config.inc.php';
@@ -151,8 +151,8 @@ $sel_menu_roles
 <tr>
 <td align='right'>title: <input type='text' id='r_title_for_edit'></td><td align='right'>descr: <input type='text' id='r_descr_for_edit'></td>
 <td align='right'>
-<div onClick='javascript: modify_role();' style='cursor: pointer;'>[edit]<img src='./img/loading.gif' style='display: none;'></div>
-<div onClick='javascript: delete_role();' style='cursor: pointer;'>[del]<img src='./img/loading.gif' style='display: none;'></div>
+<div onClick='javascript: modify_role();' style='cursor: pointer;'>[edit]<img src='./img/loading.gif' id='modify_role_is_sending' style='display: none;'></div>
+<div onClick='javascript: delete_role();' style='cursor: pointer;'>[del]<img src='./img/loading.gif' id='delete_role_is_sending' style='display: none;'></div>
 </td>
 </tr>
 <tr>
@@ -203,7 +203,7 @@ $sel_menu_perms
 <tr>
 <td align='right'>title: <input type='text' id='p_title_for_edit'></td><td align='right'>descr: <input type='text' id='p_descr_for_edit'></td>
 <td align='right'>
-<div onClick='javascript: modify_perm();' style='cursor: pointer;'>[edit]<img src='./img/loading.gif' style='display: none;'></div>
+<div onClick='javascript: modify_perm();' style='cursor: pointer;'>[edit]<img src='./img/loading.gif' id='modify_perm_is_sending' style='display: none;'></div>
 <div onClick='javascript: delete_perm();' style='cursor: pointer;'>[del]<img src='./img/loading.gif' id='delete_perm_is_sending' style='display: none;'></div>
 </td>
 </tr>
