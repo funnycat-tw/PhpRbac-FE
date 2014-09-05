@@ -1,7 +1,7 @@
 //
 //    File: mgmt.js
 //
-//Revision:2014090502
+//Revision:2014090503
 //
 //
 
@@ -29,8 +29,8 @@ function edit_role(r_id, r_title, r_descr) {
 	$.ajax({
 	        url:"./api/edit_role.php?json=1&r_id="+r_id+"&title="+new_role_title+"&descr="+new_role_descr,
 	        dataType: "json",
-	        beforeSend:before_send("#delete_role_is_sending"),
-	        complete:on_complete("#delete_role_is_sending"),
+	        beforeSend:before_send("#modify_role_is_sending"),
+	        complete:on_complete("#modify_role_is_sending"),
 	        success: function (response) {
 			var obj = response;
 
@@ -232,8 +232,8 @@ function edit_perm(p_id, p_title, p_descr) {
 	$.ajax({
 	        url:"./api/edit_perm.php?json=1&p_id="+p_id+"&title="+new_perm_title+"&descr="+new_perm_descr,
 	        dataType: "json",
-	        beforeSend:before_send("#delete_perm_is_sending"),
-	        complete:on_complete("#delete_perm_is_sending"),
+	        beforeSend:before_send("#modify_perm_is_sending"),
+	        complete:on_complete("#modify_perm_is_sending"),
 	        success: function (response) {
 			var obj = response;
 
