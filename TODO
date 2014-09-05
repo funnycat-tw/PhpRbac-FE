@@ -6,14 +6,14 @@ Key:
 
 Rbac->{Entity}->{methods}
 
-	add()
-	addPath()
-	assign()
+	+add()
+	+addPath()
+	+assign()
 	*children()
 	*count()
 	*depth()
 	*descendants()
-	^edit()
+	+edit()
 	*getDescription()
 	*getPath()
 	*getTitle()
