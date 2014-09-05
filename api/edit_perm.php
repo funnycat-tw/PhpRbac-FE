@@ -23,7 +23,7 @@
 // Returns true if successful, false if the Entity does not exist.
 //
 //
-//Revision:2014090501
+//Revision:2014090502
 //
 
 require_once '/var/www/Classes/PhpRbac/src/PhpRbac/Rbac.php';
@@ -32,7 +32,7 @@ $P_ID  = "";
 $TITLE = "";
 $DESCR = "";
 
-if( isset($_REQUEST['r_id']) ) {
+if( isset($_REQUEST['p_id']) ) {
 	$P_ID = $_REQUEST['p_id'];
 }
 if( isset($_REQUEST['title']) ) {
@@ -42,7 +42,7 @@ if( isset($_REQUEST['descr']) ) {
 	$DESCR = $_REQUEST['descr'];
 }
 
-if( $P_ID == "" AND $TITLE == "" AND $DESCR == "" ) {
+if( $P_ID == "" OR $TITLE == "" ) {	// p_id, title must be given
 	echo "FAIL: Missing parameter(s).";
 	exit(-1);
 }
