@@ -1,7 +1,7 @@
 //
 //    File: mgmt.js
 //
-//Revision:2014090402
+//Revision:2014090501
 //
 //
 
@@ -21,13 +21,56 @@ function on_complete(id) {
 } // on_complete
 
 // Roles -----------------------------------------------------------------
-function edit_role() {
-	console.log("edit role...");
+function edit_role(r_id, r_title, r_descr) {
+	console.log("prepare to edit role id " + r_id + "\nnew title: " + r_title + "\nnew descr: " + r_descr);
+    	var new_role_title = encodeURIComponent( r_title );
+	var new_role_descr = encodeURIComponent( r_descr );
+
+	$.ajax({
+	        url:"./api/edit_role.php?json=1&r_id="+r_id+"&title="+new_role_title+"&descr="+new_role_descr,
+	        dataType: "json",
+	        beforeSend:before_send("#delete_role_is_sending"),
+	        complete:on_complete("#delete_role_is_sending"),
+	        success: function (response) {
+			var obj = response;
+
+			console.log("Result: " + obj.Result);
+			$('#role_msg').html("Result: " + obj.Result);
+			if( obj.Result == "OK." ) {
+				// update select menu of roles
+				var new_options = "<option value='-1'>-- Role Name --</option>";
+				var opt_cnt = 0;
+
+				for(var r_key in obj.List) {
+					opt_cnt++;
+					new_options = new_options
+						+ "<option value='" 
+						+ obj.List[r_key].ID
+						+ "'>"
+						+ obj.List[r_key].Title
+						+ "(" 
+						+ obj.List[r_key].Description
+						+ ")"
+						+ "</option>";	
+				}
+				$('#rname').html(new_options);
+				$('#rname').attr("size", opt_cnt+1);
+			}
+		},
+	        error: function (xhr) {
+			console.log("AJAX request error (remove_role)");
+			$('#role_msg').html("AJAX request error (remove_role)");
+		}
+	    }); 
 } // edit_role
 
 function modify_role() {
-	console.log("modify role...");
-} // edit_role
+	var r_id = $('#r_id_for_edit').html();
+	var new_r_title = $('#r_title_for_edit').val();
+	var new_r_descr = $('#r_descr_for_edit').val();
+
+	edit_role(r_id, new_r_title, new_r_descr);
+} // modify_role
 
 function edit_perm() {
 	console.log("edit perm...");
@@ -35,7 +78,7 @@ function edit_perm() {
 
 function modify_perm() {
 	console.log("modify perm...");
-} // edit_perm
+} // modify_perm
 
 function add_new_role() {
     var new_role = encodeURIComponent( $('#new_role').val() );
@@ -128,7 +171,7 @@ function role_selected() {
 	var r_title_and_descr = $('#rname').find(":selected").html().match(/^(.+)\((.+)\)$/);
 	var r_title = r_title_and_descr[1], r_descr = r_title_and_descr[2];
 
-	console.log("role id: " + r_id + ", title: " + r_title + ", descr: " + r_descr[2] + " has been selected.");
+	console.log("role id: " + r_id + ", title: " + r_title + ", descr: " + r_descr + " has been selected.");
 
 	// update r_*_for_edit
 	$('#r_id_for_edit').html(r_id);
@@ -280,7 +323,7 @@ function perm_selected() {
 	var p_title_and_descr = $('#pname').find(":selected").html().match(/^(.+)\((.+)\)$/);
 	var p_title = p_title_and_descr[1], p_descr = p_title_and_descr[2];
 
-	console.log("perm id: " + p_id + ", title: " + p_title + ", descr: " + p_descr[2] + " has been selected.");
+	console.log("perm id: " + p_id + ", title: " + p_title + ", descr: " + p_descr + " has been selected.");
 
 	// update p_*_for_edit
 	$('#p_id_for_edit').html(p_id);
