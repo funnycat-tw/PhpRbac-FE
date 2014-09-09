@@ -57,9 +57,26 @@ function add_perm_to_role() {
 				}
 				$('#role_assoc_perm').html(new_options);
 				$('#role_assoc_perm').attr("size", opt_cnt+1);
-			}
 
-			// TODO: update select menu of unassociated role-perm
+				// update select menu of unassociated rols-perm
+				new_options = "<option value='-1'>-- unassociated Perm --</option>";
+				opt_cnt = 0;
+
+				for(var r_key in obj.unList) {
+					opt_cnt++;
+					new_options = new_options
+						+ "<option value='" 
+						+ obj.unList[r_key].ID
+						+ "'>"
+						+ obj.unList[r_key].Title
+						+ "(" 
+						+ obj.unList[r_key].Description
+						+ ")"
+						+ "</option>";	
+				}
+				$('#role_unassoc_perm').html(new_options);
+				$('#role_unassoc_perm').attr("size", opt_cnt+1);
+			}
 		},
 	        error: function (xhr) {
 			console.log("AJAX request error (add_perm_to_role)");
@@ -104,8 +121,25 @@ function remove_perm_from_role() {
 				}
 				$('#role_assoc_perm').html(new_options);
 				$('#role_assoc_perm').attr("size", opt_cnt+1);
+				// update select menu of associated rols-perm
+				new_options = "<option value='-1'>-- Unassociated Perm --</option>";
+				opt_cnt = 0;
+
+				for(var r_key in obj.unList) {
+					opt_cnt++;
+					new_options = new_options
+						+ "<option value='" 
+						+ obj.unList[r_key].ID
+						+ "'>"
+						+ obj.unList[r_key].Title
+						+ "(" 
+						+ obj.unList[r_key].Description
+						+ ")"
+						+ "</option>";	
+				}
+				$('#role_unassoc_perm').html(new_options);
+				$('#role_unassoc_perm').attr("size", opt_cnt+1);
 			}
-			// TODO: update select menu of unassociated role-perm
 		},
 	        error: function (xhr) {
 			console.log("AJAX request error (remove_perm_from_role)");
@@ -261,6 +295,10 @@ function update_selection_about_role_perm_assoc(r_id) {
 			console.log("Result: " + obj.Result);
 			$('#role_msg').html("Result: " + obj.Result);
 			if( obj.Result == "OK." ) {
+
+				console.log(JSON.stringify(obj.List));
+				console.log(JSON.stringify(obj.unList));
+
 				// update select menu of associated role-perm
 				var new_options = "<option value='-1'>-- Associated Perm --</option>";
 				var opt_cnt = 0;
