@@ -3,7 +3,7 @@
 //    File: mgmt.php
 //	    Rbac management system (PhpRbac Frontend)
 //
-//Revision:2014090901
+//Revision:2014090902
 //
 
 require_once dirname(__FILE__) . '/conf/config.inc.php';
@@ -143,14 +143,22 @@ $sel_menu_roles
 <form id='role_user_form'><select name='role_user'><option value='-1'>-- Role & User --</option></select></form>
 </td>
 <td>
-<form id='role_assoc_perm_form'><select id='role_assoc_perm' name='role_assoc_perm'><option value='-1'>-- Associated Perm --</option></select></form>
-<button id='btn_add_perm_to_role' onClick='javascript:add_perm_to_role();'>&lt;&lt;&lt;</button>
-<button id='btn_remove_perm_from_role' onClick='javascript:remove_perm_from_role();'>&gt;&gt;&gt;</button>
-<form id='role_unassoc_perm_form'><select id='role_unassoc_perm'  name='role_unassoc_perm'><option value='-1'>-- Unassociated Perm --</option></select></form>
 </td>
 </tr>
 <!-- show edit data when role selected -->
 <tr><td>Role ID Choosed</td><td colspan='2' id='r_id_for_edit'></td></tr>
+<!-- assocation menu -->
+<tr>
+<td>
+<form id='role_assoc_perm_form'><select id='role_assoc_perm' name='role_assoc_perm'><option value='-1'>-- Associated Perm --</option></select></form>
+</td>
+<td>
+<button id='btn_add_perm_to_role' onClick='javascript:add_perm_to_role();'>&lt;&lt;&lt;</button>
+<button id='btn_remove_perm_from_role' onClick='javascript:remove_perm_from_role();'>&gt;&gt;&gt;</button>
+<td>
+<form id='role_unassoc_perm_form'><select id='role_unassoc_perm'  name='role_unassoc_perm'><option value='-1'>-- Unassociated Perm --</option></select></form>
+</td>
+</tr>
 <tr>
 <td align='right'>title: <input type='text' id='r_title_for_edit'></td><td align='right'>descr: <input type='text' id='r_descr_for_edit'></td>
 <td align='right'>
