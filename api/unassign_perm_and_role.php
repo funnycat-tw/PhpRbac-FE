@@ -1,7 +1,7 @@
 <?php
 //    File: unassign_perm_and_role.php
 //
-//Revision:2014090102
+//Revision:2014090901
 //
 //
 // Description
@@ -35,6 +35,7 @@ require_once '/var/www/Classes/PhpRbac/src/PhpRbac/Rbac.php';
 
 $ROLE = "";
 $PERM = "";
+$R_ID = "";
 
 if( isset($_REQUEST['role']) ) {
 	$ROLE = $_REQUEST['role'];
@@ -50,12 +51,42 @@ if( $ROLE == "" OR $PERM == "" ) {
 
 $rbac = new PhpRbac\Rbac();
 
+$RESULT = "";
+$ROLE_PERM_LIST = array();
+$UNASSOCIATED_LIST = array();
 // unassign a role-permission relation
 if($rbac->Permissions->unassign($ROLE, $PERM)) {	// or $rbac->Roles->unassign(), what a mess...
-	echo "OK.";
+	$RESULT = "OK.";
+	
+	$R_ID = preg_match("/^[0-9]+$/", $ROLE) == 1 ? $ROLE : $rbac->Roles->titleID($ROLE);
+
+	$ROLE_PERM_LIST = $rbac->Roles->permissions($R_ID, FALSE);
+	$ALL_PERM_LIST = $rbac->Permissions->descendants($rbac->Permissions->returnID("/"));
+	$UNASSOCIATED_LIST = get_unassociated($ALL_PERM_LIST, $ROLE_PERM_LIST);
 }
 else {
-	echo "FAIL.";
+	$RESULT = "FAIL.";
 }
 
+echo isset($_REQUEST['json']) ? json_encode( array( "Result" => $RESULT, "List" => $ROLE_PERM_LIST, "unList" => $UNASSOCIATED_LIST ) ) : $RESULT;
+
 exit();
+
+function get_unassociated($all, $assoc) {
+	$result_array = array();
+
+	foreach($all as $k => $v) {
+		$found = FALSE;
+		foreach($assoc as $ka => $va) {
+			if( $assoc[$ka]['Title'] == $k ) {
+				$found = TRUE;
+				break;
+			}
+		}
+		if( !$found ) {
+			$result_array[$k] = $v;
+		}
+	}
+	return $result_array;
+} // get_unassociated
+?>
