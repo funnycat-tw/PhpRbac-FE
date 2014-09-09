@@ -1,7 +1,7 @@
 //
 //    File: mgmt.js
 //
-//Revision:2014090503
+//Revision:2014090901
 //
 //
 
@@ -21,6 +21,24 @@ function on_complete(id) {
 } // on_complete
 
 // Roles -----------------------------------------------------------------
+function add_perm_to_role() {
+	var r_id = $('#r_id_for_edit').html();
+	var p_title_and_descr = $('#role_unassoc_perm').find(":selected").html().match(/^(.+)\((.+)\)$/);
+	var p_title = p_title_and_descr[1], p_descr = p_title_and_descr[2];
+
+	console.log("add_perm_to_role for r_id: " + r_id + " title: " + p_title + " descr: " + p_descr);
+
+} // add_perm_to_role
+
+function remove_perm_from_role() {
+	var r_id = $('#r_id_for_edit').html();
+	var p_title_and_descr = $('#role_assoc_perm').find(":selected").html().match(/^(.+)\((.+)\)$/);
+	var p_title = p_title_and_descr[1], p_descr = p_title_and_descr[2];
+
+	console.log("remove_perm_from_role for r_id: " + r_id + " title: " + p_title + " descr: " + p_descr);
+
+} // remove_perm_from_role
+
 function edit_role(r_id, r_title, r_descr) {
 	console.log("prepare to edit role id " + r_id + "\nnew title: " + r_title + "\nnew descr: " + r_descr);
     	var new_role_title = encodeURIComponent( r_title );
@@ -155,6 +173,65 @@ function add_new_role_path() {
     }); 
 } // add_new_role_path
 
+function update_selection_about_role_perm_assoc(r_id) {
+	// get role & permissioin associated/unassociated list
+	$.ajax({
+	        url:"./api/get_perms_of_role.php?json=1&r_id="+r_id,
+	        dataType: "json",
+	        beforeSend:before_send("#delete_role_is_sending"),
+	        complete:on_complete("#delete_role_is_sending"),
+	        success: function (response) {
+			var obj = response;
+
+			console.log("Result: " + obj.Result);
+			$('#role_msg').html("Result: " + obj.Result);
+			if( obj.Result == "OK." ) {
+				// update select menu of associated role-perm
+				var new_options = "<option value='-1'>-- Associated Perm --</option>";
+				var opt_cnt = 0;
+
+				for(var r_key in obj.List) {
+					opt_cnt++;
+					new_options = new_options
+						+ "<option value='" 
+						+ obj.List[r_key].ID
+						+ "'>"
+						+ obj.List[r_key].Title
+						+ "(" 
+						+ obj.List[r_key].Description
+						+ ")"
+						+ "</option>";	
+				}
+				$('#role_assoc_perm').html(new_options);
+				$('#role_assoc_perm').attr("size", opt_cnt+1);
+
+				// update select menu of unassociated role-perm
+				new_options = "<option value='-1'>-- Unassociated Perm --</option>";
+				opt_cnt = 0;
+
+				for(var r_key in obj.unList) {
+					opt_cnt++;
+					new_options = new_options
+						+ "<option value='" 
+						+ obj.unList[r_key].ID
+						+ "'>"
+						+ obj.unList[r_key].Title
+						+ "(" 
+						+ obj.unList[r_key].Description
+						+ ")"
+						+ "</option>";	
+				}
+				$('#role_unassoc_perm').html(new_options);
+				$('#role_unassoc_perm').attr("size", opt_cnt+1);
+			}
+		},
+	        error: function (xhr) {
+			console.log("AJAX request error (update_selection_about_role_perm_assoc)");
+			$('#role_msg').html("AJAX request error (update_selecttion_about_role_perm_assoc)");
+		}
+	});
+} // update_selection_about_role_perm_assoc
+
 function role_selected() {
 	var r_id = $('#rname').find(":selected").val();
 
@@ -169,6 +246,9 @@ function role_selected() {
 	$('#r_id_for_edit').html(r_id);
 	$('#r_title_for_edit').val(r_title);
 	$('#r_descr_for_edit').val(r_descr);
+
+	// update role & perm association
+	update_selection_about_role_perm_assoc(r_id);
 } // role_selected
 
 function remove_role(r_id) {
