@@ -1,7 +1,7 @@
 <?php
 //    File: unassign_perm_from_role.php
 //
-//Revision:2014091001
+//Revision:2014091002
 //
 //
 // Description
@@ -54,7 +54,7 @@ $RESULT = "";
 $ROLE_PERM_LIST = array();
 $UNASSOCIATED_LIST = array();
 // unassign a role-permission relation
-if($rbac->Roles->unassign($R_ID, $TITLE)) {	// or $rbac->Roles->unassign(), what a mess...
+if($rbac->Permissions->unassign($R_ID, $TITLE)) {	// cannot use $rbac->Roles->unassign(), no such API
 	$RESULT = "OK.";
 	
 	$R_ID = preg_match("/^[0-9]+$/", $R_ID) == 1 ? $R_ID : $rbac->Roles->titleID($R_ID);
