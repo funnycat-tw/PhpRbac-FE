@@ -1,7 +1,7 @@
 //
 //    File: mgmt.js
 //
-//Revision:2014091001
+//Revision:2014091002
 //
 //
 
@@ -110,24 +110,7 @@ function edit_role(r_id, r_title, r_descr) {
 			console.log("Result: " + obj.Result);
 			$('#role_msg').html("Result: " + obj.Result);
 			if( obj.Result == "OK." ) {
-				// update select menu of roles
-				var new_options = "<option value='-1'>-- Role Name --</option>";
-				var opt_cnt = 0;
-
-				for(var r_key in obj.List) {
-					opt_cnt++;
-					new_options = new_options
-						+ "<option value='" 
-						+ obj.List[r_key].ID
-						+ "'>"
-						+ obj.List[r_key].Title
-						+ "(" 
-						+ obj.List[r_key].Description
-						+ ")"
-						+ "</option>";	
-				}
-				$('#rname').html(new_options);
-				$('#rname').attr("size", opt_cnt+1);
+				update_select_menu('#rname', '-- Role Name --', obj.List);
 			}
 		},
 	        error: function (xhr) {
@@ -199,26 +182,9 @@ function add_new_role_path() {
 		console.log("Result: " + obj.Result + "\n" + "Msg: " + obj.Msg);
 		$('#role_msg').html("Result: " + obj.Result + "<br>" + "Msg: " + obj.Msg);
 		if( obj.Result == "OK." ) {
-			// update select menu of roles
-			var new_options = "<option value='-1'>-- Role Name --</option>";
-			var opt_cnt = 0;
-
-			for(var r_key in obj.List) {
-				opt_cnt++;
-				new_options = new_options
-					+ "<option value='" 
-					+ obj.List[r_key].ID
-					+ "'>"
-					+ obj.List[r_key].Title
-					+ "(" 
-					+ obj.List[r_key].Description
-					+ ")"
-					+ "</option>";	
-			}
-			$('#rname').html(new_options);
+			update_select_menu('#rname', '--Role Name --', obj.List);
 			$('#new_role_path').val("");
 			$('#new_role_path_descr').val("");
-			$('#rname').attr("size", opt_cnt+1);
 		}
 	},
         error: function (xhr) {
@@ -241,47 +207,8 @@ function update_selection_about_role_perm_assoc(r_id) {
 			console.log("Result: " + obj.Result);
 			$('#role_msg').html("Result: " + obj.Result);
 			if( obj.Result == "OK." ) {
-
-				console.log(JSON.stringify(obj.List));
-				console.log(JSON.stringify(obj.unList));
-
-				// update select menu of associated role-perm
-				var new_options = "<option value='-1'>-- Associated Perm --</option>";
-				var opt_cnt = 0;
-
-				for(var r_key in obj.List) {
-					opt_cnt++;
-					new_options = new_options
-						+ "<option value='" 
-						+ obj.List[r_key].ID
-						+ "'>"
-						+ obj.List[r_key].Title
-						+ "(" 
-						+ obj.List[r_key].Description
-						+ ")"
-						+ "</option>";	
-				}
-				$('#role_assoc_perm').html(new_options);
-				$('#role_assoc_perm').attr("size", opt_cnt+1);
-
-				// update select menu of unassociated role-perm
-				new_options = "<option value='-1'>-- Unassociated Perm --</option>";
-				opt_cnt = 0;
-
-				for(var r_key in obj.unList) {
-					opt_cnt++;
-					new_options = new_options
-						+ "<option value='" 
-						+ obj.unList[r_key].ID
-						+ "'>"
-						+ obj.unList[r_key].Title
-						+ "(" 
-						+ obj.unList[r_key].Description
-						+ ")"
-						+ "</option>";	
-				}
-				$('#role_unassoc_perm').html(new_options);
-				$('#role_unassoc_perm').attr("size", opt_cnt+1);
+				update_select_menu('#role_assoc_perm', '-- Associated Perm --', obj.List);
+				update_select_menu('#role_unassoc_perm', '-- Unassociated Perm --', obj.unList);
 			}
 		},
 	        error: function (xhr) {
@@ -322,24 +249,7 @@ function remove_role(r_id) {
 			console.log("Result: " + obj.Result);
 			$('#role_msg').html("Result: " + obj.Result);
 			if( obj.Result == "OK." ) {
-				// update select menu of roles
-				var new_options = "<option value='-1'>-- Role Name --</option>";
-				var opt_cnt = 0;
-
-				for(var r_key in obj.List) {
-					opt_cnt++;
-					new_options = new_options
-						+ "<option value='" 
-						+ obj.List[r_key].ID
-						+ "'>"
-						+ obj.List[r_key].Title
-						+ "(" 
-						+ obj.List[r_key].Description
-						+ ")"
-						+ "</option>";	
-				}
-				$('#rname').html(new_options);
-				$('#rname').attr("size", opt_cnt+1);
+				update_select_menu('#rname', '-- Role Name --', obj.List);
 			}
 		},
 	        error: function (xhr) {
