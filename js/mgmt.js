@@ -1,7 +1,7 @@
 //
 //    File: mgmt.js
 //
-//Revision:2014091005
+//Revision:2014091006
 //
 //
 
@@ -73,7 +73,7 @@ function remove_perm_from_role() {
 	console.log("remove_perm_from_role for r_id: " + r_id + " title: " + p_title + " descr: " + p_descr);
 
 	$.ajax({
-	        url:"./api/unassign_perm_and_role.php?json=1&role="+r_id+"&perm="+p_title,
+	        url:"./api/unassign_perm_from_role.php?json=1&r_id="+r_id+"&title="+p_title,
 	        dataType: "json",
 	        beforeSend:before_send("#modify_role_is_sending"),
 	        complete:on_complete("#modify_role_is_sending"),

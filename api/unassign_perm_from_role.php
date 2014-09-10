@@ -1,7 +1,7 @@
 <?php
-//    File: unassign_perm_and_role.php
+//    File: unassign_perm_from_role.php
 //
-//Revision:2014090901
+//Revision:2014091001
 //
 //
 // Description
@@ -33,18 +33,17 @@
 
 require_once '/var/www/Classes/PhpRbac/src/PhpRbac/Rbac.php';
 
-$ROLE = "";
-$PERM = "";
-$R_ID = "";
+$R_ID  = "";
+$TITLE = "";
 
-if( isset($_REQUEST['role']) ) {
-	$ROLE = $_REQUEST['role'];
+if( isset($_REQUEST['r_id']) ) {
+	$R_ID = $_REQUEST['r_id'];
 }
-if( isset($_REQUEST['perm']) ) {
-	$PERM = $_REQUEST['perm'];
+if( isset($_REQUEST['title']) ) {
+	$title = $_REQUEST['title'];
 }
 
-if( $ROLE == "" OR $PERM == "" ) {
+if( $R_ID == "" OR $TITLE == "" ) {
 	echo "FAIL: Missing parameter(s).";
 	exit(-1);
 }
@@ -55,10 +54,10 @@ $RESULT = "";
 $ROLE_PERM_LIST = array();
 $UNASSOCIATED_LIST = array();
 // unassign a role-permission relation
-if($rbac->Permissions->unassign($ROLE, $PERM)) {	// or $rbac->Roles->unassign(), what a mess...
+if($rbac->Roles->unassign($R_ID, $TITLE)) {	// or $rbac->Roles->unassign(), what a mess...
 	$RESULT = "OK.";
 	
-	$R_ID = preg_match("/^[0-9]+$/", $ROLE) == 1 ? $ROLE : $rbac->Roles->titleID($ROLE);
+	$R_ID = preg_match("/^[0-9]+$/", $R_ID) == 1 ? $R_ID : $rbac->Roles->titleID($R_ID);
 
 	$ROLE_PERM_LIST = $rbac->Roles->permissions($R_ID, FALSE);
 	$ALL_PERM_LIST = $rbac->Permissions->descendants($rbac->Permissions->returnID("/"));
