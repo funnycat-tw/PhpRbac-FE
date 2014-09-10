@@ -3,7 +3,7 @@
 //    File: mgmt.php
 //	    Rbac management system (PhpRbac Frontend)
 //
-//Revision:2014090902
+//Revision:2014091001
 //
 
 require_once dirname(__FILE__) . '/conf/config.inc.php';
@@ -146,8 +146,8 @@ $sel_menu_roles
 </td>
 </tr>
 <!-- show edit data when role selected -->
-<tr><td>Role ID Choosed</td><td colspan='2' id='r_id_for_edit'></td></tr>
-<!-- assocation menu -->
+<tr><td>Role ID Chosen</td><td colspan='2' id='r_id_for_edit'></td></tr>
+<!-- association menu of the chosen role -->
 <tr>
 <td>
 <form id='role_assoc_perm_form'><select id='role_assoc_perm' name='role_assoc_perm'><option value='-1'>-- Associated Perm --</option></select></form>
@@ -159,6 +159,7 @@ $sel_menu_roles
 <form id='role_unassoc_perm_form'><select id='role_unassoc_perm'  name='role_unassoc_perm'><option value='-1'>-- Unassociated Perm --</option></select></form>
 </td>
 </tr>
+<!-- edit(modify) menu of the chosen role -->
 <tr>
 <td align='right'>title: <input type='text' id='r_title_for_edit'></td><td align='right'>descr: <input type='text' id='r_descr_for_edit'></td>
 <td align='right'>
@@ -210,7 +211,20 @@ $sel_menu_perms
 </td>
 </tr>
 <!-- show edit data when permission selected -->
-<tr><td>Permission ID Choosed</td><td colspan='2' id='p_id_for_edit'></td></tr>
+<tr><td>Permission ID Chosen</td><td colspan='2' id='p_id_for_edit'></td></tr>
+<!-- association menu of the chosen permission -->
+<tr>
+<td>
+<form id='perm_assoc_role_form'><select id='perm_assoc_role' name='perm_assoc_role'><option value='-1'>-- Associated Role --</option></select></form>
+</td>
+<td>
+<button id='btn_add_role_to_perm' onClick='javascript:add_role_to_perm();'>&lt;&lt;&lt;</button>
+<button id='btn_remove_role_from_perm' onClick='javascript:remove_role_from_perm();'>&gt;&gt;&gt;</button>
+<td>
+<form id='perm_unassoc_role_form'><select id='perm_unassoc_role'  name='perm_unassoc_role'><option value='-1'>-- Unassociated Role --</option></select></form>
+</td>
+</tr>
+<!-- edit(modify) menu of the chosen permission -->
 <tr>
 <td align='right'>title: <input type='text' id='p_title_for_edit'></td><td align='right'>descr: <input type='text' id='p_descr_for_edit'></td>
 <td align='right'>
