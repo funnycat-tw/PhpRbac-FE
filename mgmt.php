@@ -3,7 +3,7 @@
 //    File: mgmt.php
 //	    Rbac management system (PhpRbac Frontend)
 //
-//Revision:2014091001
+//Revision:2014091002
 //
 
 require_once dirname(__FILE__) . '/conf/config.inc.php';
@@ -204,10 +204,9 @@ $sel_menu_perms
 </form>
 </td>
 <td>
-<form id='perm_role_form'><select name='perm_role'><option value='-1'>-- Perm & Role --</option></select></form>
+<form id='perm_user_form'><select name='perm_user'><option value='-1'>-- Perm & User --</option></select></form>
 </td>
 <td>
-<form id='perm_user_form'><select name='perm_user'><option value='-1'>-- Perm & User --</option></select></form>
 </td>
 </tr>
 <!-- show edit data when permission selected -->
