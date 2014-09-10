@@ -1,7 +1,7 @@
 //
 //    File: mgmt.js
 //
-//Revision:2014091002
+//Revision:2014091003
 //
 //
 
@@ -289,24 +289,7 @@ function edit_perm(p_id, p_title, p_descr) {
 			console.log("Result: " + obj.Result);
 			$('#perm_msg').html("Result: " + obj.Result);
 			if( obj.Result == "OK." ) {
-				// update select menu of perms
-				var new_options = "<option value='-1'>-- Perm Name --</option>";
-				var opt_cnt = 0;
-
-				for(var p_key in obj.List) {
-					opt_cnt++;
-					new_options = new_options
-						+ "<option value='" 
-						+ obj.List[p_key].ID
-						+ "'>"
-						+ obj.List[p_key].Title
-						+ "(" 
-						+ obj.List[p_key].Description
-						+ ")"
-						+ "</option>";	
-				}
-				$('#pname').html(new_options);
-				$('#pname').attr("size", opt_cnt+1);
+				update_select_menu('#pname', '-- Perm Name --', obj.List);
 			}
 		},
 	        error: function (xhr) {
@@ -378,26 +361,9 @@ function add_new_perm_path() {
 		console.log("Result: " + obj.Result + "\n" + "Msg: " + obj.Msg);
 		$('#perm_msg').html("Result: " + obj.Result + "<br>" + "Msg: " + obj.Msg);
 		if( obj.Result == "OK." ) {
-			// update select menu of roles
-			var new_options = "<option value='-1'>-- Perm Name --</option>";
-			var opt_cnt = 0;
-
-			for(var p_key in obj.List) {
-				opt_cnt++;
-				new_options = new_options
-					+ "<option value='" 
-					+ obj.List[p_key].ID
-					+ "'>"
-					+ obj.List[p_key].Title
-					+ "(" 
-					+ obj.List[p_key].Description
-					+ ")"
-					+ "</option>";	
-			}
-			$('#pname').html(new_options);
+			update_select_menu('#pname', '-- Perm Name --', obj.List);
 			$('#new_perm_path').val("");
 			$('#new_perm_path_descr').val("");
-			$('#pname').attr("size", opt_cnt+1);
 		}
 	},
         error: function (xhr) {
@@ -406,6 +372,30 @@ function add_new_perm_path() {
 	}
     }); 
 } // add_new_perm_path
+
+function update_selection_about_perm_role_assoc(p_id) {
+	// get role & permissioin associated/unassociated list
+	$.ajax({
+	        url:"./api/get_roles_of_perm.php?json=1&p_id="+p_id,
+	        dataType: "json",
+	        beforeSend:before_send("#delete_perm_is_sending"),
+	        complete:on_complete("#delete_perm_is_sending"),
+	        success: function (response) {
+			var obj = response;
+
+			console.log("Result: " + obj.Result);
+			$('#perm_msg').html("Result: " + obj.Result);
+			if( obj.Result == "OK." ) {
+				update_select_menu('#perm_assoc_role', '-- Associated Role --', obj.List);
+				update_select_menu('#perm_unassoc_role', '-- Unassociated Role --', obj.unList);
+			}
+		},
+	        error: function (xhr) {
+			console.log("AJAX request error (update_selection_about_perm_role_assoc)");
+			$('#perm_msg').html("AJAX request error (update_selecttion_about_perm_role_assoc)");
+		}
+	});
+} // update_selection_about_perm_role_assoc
 
 function perm_selected() {
 	var p_id = $('#pname').find(":selected").val();
@@ -421,6 +411,9 @@ function perm_selected() {
 	$('#p_id_for_edit').html(p_id);
 	$('#p_title_for_edit').val(p_title);
 	$('#p_descr_for_edit').val(p_descr);
+
+	// update role & perm association
+	update_selection_about_perm_role_assoc(p_id);
 } // perm_selected
 
 function remove_perm(p_id) {
@@ -435,24 +428,7 @@ function remove_perm(p_id) {
 			console.log("Result: " + obj.Result);
 			$('#perm_msg').html("Result: " + obj.Result);
 			if( obj.Result == "OK." ) {
-				// update select menu of roles
-				var new_options = "<option value='-1'>-- Perm Name --</option>";
-				var opt_cnt = 0;
-
-				for(var p_key in obj.List) {
-					opt_cnt++;
-					new_options = new_options
-						+ "<option value='" 
-						+ obj.List[p_key].ID
-						+ "'>"
-						+ obj.List[p_key].Title
-						+ "(" 
-						+ obj.List[p_key].Description
-						+ ")"
-						+ "</option>";	
-				}
-				$('#pname').html(new_options);
-				$('#pname').attr("size", opt_cnt+1);
+				update_select_menu('#pname', '-- Perm Name --', obj.List);
 			}
 		},
 	        error: function (xhr) {
