@@ -21,7 +21,7 @@ Rbac->{Entity}->{methods}
 	*pathId()
 	*returnId()
 	*titleId()
-	^unassign()
+	+unassign()
 	*reset()
 	^resetAssignments()
 
@@ -34,7 +34,7 @@ Rbac->Permissions->{methods}
 Rbac->Roles->{methods}
 
 	^hasPermission()
-	^permissions()
+	+permissions()
 	+remove()
 	^unassignPermissions()
 	^unassignUsers()
