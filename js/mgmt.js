@@ -1,7 +1,7 @@
 //
 //    File: mgmt.js
 //
-//Revision:2014091004
+//Revision:2014091005
 //
 //
 
@@ -301,6 +301,35 @@ function add_role_to_perm() {
 		}
 	    }); 
 } // add_role_to_perm
+
+function remove_role_from_perm() {
+	var p_id = $('#p_id_for_edit').html();
+	var r_title_and_descr = $('#perm_assoc_role').find(":selected").html().match(/^(.+)\((.+)\)$/);
+	var r_title = r_title_and_descr[1], r_descr = r_title_and_descr[2];
+
+	console.log("remove_role_from_perm for p_id: " + p_id + " title: " + r_title + " descr: " + r_descr);
+
+	$.ajax({
+	        url:"./api/unassign_role_from_perm.php?json=1&p_id="+p_id+"&title="+r_title,
+	        dataType: "json",
+	        beforeSend:before_send("#modify_perm_is_sending"),
+	        complete:on_complete("#modify_perm_is_sending"),
+	        success: function (response) {
+			var obj = response;
+
+			console.log("Result: " + obj.Result);
+			$('#perm_msg').html("Result: " + obj.Result);
+			if( obj.Result == "OK." ) {
+				update_select_menu('#perm_assoc_role', '-- Associated Role --', obj.List);
+				update_select_menu('#perm_unassoc_role', '-- Unassociated Role --', obj.unList);
+			}
+		},
+	        error: function (xhr) {
+			console.log("AJAX request error (remove_role_from_perm)");
+			$('#perm_msg').html("AJAX request error (remove_role_from_perm)");
+		}
+	    }); 
+} // remove_role_from_perm
 
 function edit_perm(p_id, p_title, p_descr) {
 	console.log("prepare to edit perm id " + p_id + "\nnew title: " + p_title + "\nnew descr: " + p_descr);
